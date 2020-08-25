@@ -1,0 +1,8 @@
+pytest
+pytest-cov
+pytest-django
+pytest-pep8
+pytest-pythonpath
+
+# Comando
+# py.test tests/ --cov admin_honeypot --cov-report term-missing --pep8 admin_honeypot
