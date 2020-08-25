@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils.text import slugify
 
 import os
 from PIL import Image
@@ -23,17 +24,29 @@ class Product(Base):
     short_description = models.TextField(verbose_name='Short description', max_length=60)
     long_description = models.TextField(verbose_name='Long description')
     image = models.ImageField(verbose_name='Image', upload_to='product_images/%Y/%m/', blank=True, null=True)
-    slug = models.SlugField(verbose_name='Slug', unique=True)
+    slug = models.SlugField(verbose_name='Slug', unique=True, blank=True, null=True, help_text="Don't need to type")
     price = models.FloatField(verbose_name='Price')
     promotional_price = models.FloatField(verbose_name='Promotional price', default=0)
     product_type = models.CharField(
         default='V',
         max_length=1,
         choices=(
-            ('V', 'Variation'),
+            ('V', 'Variable'),
             ('S', 'Simple'),
         )
     )
+
+    def get_formatted_price(self):
+        """ Return the formatted price to use in display admin """
+        return f'R${self.price:.2f}'.replace('.', ',')
+
+    get_formatted_price.short_description = 'Price'
+
+    def get_formatted_promotional_price(self):
+        """ Return the formatted promotional price to use in display admin """
+        return f'R${self.promotional_price:.2f}'.replace('.', ',')
+
+    get_formatted_promotional_price.short_description = 'Promotional Price'
 
     @staticmethod
     def resize_image(img, new_width=800):
@@ -57,6 +70,11 @@ class Product(Base):
         )
 
     def save(self, *args, **kwargs):
+        if not self.slug:
+            """ Automated slug """
+            slug = f'{slugify(self.name)}'
+            self.slug = slug
+
         super().save(*args, **kwargs)
 
         max_image_size = 800
