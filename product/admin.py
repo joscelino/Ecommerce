@@ -9,7 +9,7 @@ class VariationInline(admin.TabularInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    """ Master-Detail Panel """
+    """ Master-Detail Product Panel """
     inlines = (VariationInline, )
 
 

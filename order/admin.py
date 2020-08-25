@@ -8,6 +8,7 @@ class ItemOrderInline(admin.TabularInline):
 
 
 class OrderAdmin(admin.ModelAdmin):
+    """ Master-Detail Order Panel """
     inlines = (ItemOrderInline, )
 
 
