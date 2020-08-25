@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     'product',
     'order',
+    'costumer',
 
     'debug_toolbar', # must be the last one
 ]
