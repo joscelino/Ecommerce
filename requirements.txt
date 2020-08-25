@@ -1,7 +1,9 @@
 dj-database-url==0.5.0
 Django==2.2.15
+django-crispy-forms==1.9.2
 django-debug-toolbar==2.2
 mysqlclient==2.0.1
+Pillow==7.2.0
 python-decouple==3.3
 pytz==2020.1
 sqlparse==0.3.1
