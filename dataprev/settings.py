@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django_filters',
+    'rest_framework',
+
     'product',
     'order',
     'costumer',
@@ -176,6 +179,7 @@ INTERNAL_IPS = [
     # ...
 ]
 
+
 def show_toolbar(request):
     return True
 
@@ -185,4 +189,7 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR-CALLBAR': show_toolbar,
 }
 
-#TODO: If have time, insert 2FA
+# DRF - API CONFIGURATION
+# TODO: Insert API framework configurations
+
+# TODO: If have time, insert 2FA
