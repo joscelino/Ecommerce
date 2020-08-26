@@ -22,7 +22,7 @@ class Costumer(Base):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     age = models.PositiveIntegerField(verbose_name='Age')
     birth_date = models.DateField(verbose_name='Birth date')
-    cpf = models.CharField(max_length=11)
+    cpf = models.CharField(max_length=11, unique=True)
 
     def __str__(self):
         return f'{self.user}'

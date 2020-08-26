@@ -102,3 +102,5 @@ class Variation(models.Model):
 
     def __str__(self):
         return self.name or self.product.name
+
+
