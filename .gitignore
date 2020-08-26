@@ -5,6 +5,9 @@ htmlcov/*
 comandos.txt
 **migrations
 **staticfiles
+*.scss
+*.svg
+*.js
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

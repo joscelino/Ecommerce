@@ -5,6 +5,8 @@ from django.utils.text import slugify
 import os
 from PIL import Image
 
+from utils import utils
+
 
 class Base(models.Model):
 
@@ -38,18 +40,18 @@ class Product(Base):
 
     def get_formatted_price(self):
         """ Return the formatted price to use in display admin """
-        return f'R${self.price:.2f}'.replace('.', ',')
+        return utils.price_formatted(self.price)
 
     get_formatted_price.short_description = 'Price'
 
     def get_formatted_promotional_price(self):
         """ Return the formatted promotional price to use in display admin """
-        return f'R${self.promotional_price:.2f}'.replace('.', ',')
+        return utils.price_formatted(self.promotional_price)
 
     get_formatted_promotional_price.short_description = 'Promotional Price'
 
     @staticmethod
-    def resize_image(img, new_width=800):
+    def resize_image(img, new_width=600):
 
         """ Resizing the original images from upload """
         img_full_path = os.path.join(settings.MEDIA_ROOT, img.name)
@@ -77,7 +79,7 @@ class Product(Base):
 
         super().save(*args, **kwargs)
 
-        max_image_size = 800
+        max_image_size = 600
 
         if self.image:
             self.resize_image(self.image, max_image_size)
