@@ -87,7 +87,7 @@ class Product(Base):
 
 
 class Variation(models.Model):
-    product = models.ForeignKey(Product, verbose_name='Product', on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, verbose_name='Product', related_name='variations', on_delete=models.CASCADE)
     name = models.CharField(verbose_name='Variation name', max_length=50, blank=True, null=True)
     price = models.FloatField(verbose_name="Price")
     promotional_price = models.FloatField(verbose_name='Promotional price', default=0)

@@ -24,7 +24,7 @@ class ProductSerializer(serializers.ModelSerializer):
         )
 
 
-class VariationSerializers(serializers.ModelSerializer):
+class VariationSerializer(serializers.ModelSerializer):
     model = Variation
     fields = (
         'product',
