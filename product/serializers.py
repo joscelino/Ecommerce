@@ -3,10 +3,27 @@ from rest_framework import serializers
 from .models import Product, Variation
 
 
+class VariationSerializer(serializers.ModelSerializer):
+    model = Variation
+    fields = (
+        'product',
+        'name',
+        'price',
+        'promotional_price',
+        'inventory',
+    )
+
+
 class ProductSerializer(serializers.ModelSerializer):
     """ Rest API Serializer """
+    variations = serializers.HyperlinkedRelatedField(
+        many=True,
+        read_only=True,
+        view_name='product-detail',
+    )
+
     class Meta:
-        extra_kargs = {
+        extra_kwargs = {
             'image': {'write_only': True}
         }
 
@@ -21,15 +38,5 @@ class ProductSerializer(serializers.ModelSerializer):
             'promotional_price',
             'product_type',
             'active',
+            'variations',
         )
-
-
-class VariationSerializer(serializers.ModelSerializer):
-    model = Variation
-    fields = (
-        'product',
-        'name',
-        'price',
-        'promotional_price',
-        'inventory',
-    )

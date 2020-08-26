@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     'django_filters',
     'rest_framework',
+    'rest_framework.authtoken',
 
     'product',
     'order',
@@ -189,7 +190,17 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR-CALLBAR': show_toolbar,
 }
 
+
 # DRF - API CONFIGURATION
-# TODO: Insert API framework configurations
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5,
+}
 
 # TODO: If have time, insert 2FA

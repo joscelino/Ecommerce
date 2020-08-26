@@ -13,8 +13,16 @@ class ProductAPIViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['get'])
     def variations(self, request, pk=None):
-        product = self.get_object()
-        serializer = VariationSerializer(product.variations.all(), many=True)
+        """ Displays product variations and pagination, if possible """
+        self.pagination_class.page_size = 5
+        variations = Variation.objects.filter(product_id=pk)
+        page = self.paginate_queryset(variations)
+
+        if page is not None:
+            serializer = VariationSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = VariationSerializer(variations, many=True)
         return Response(serializer.data)
 
 
@@ -23,4 +31,4 @@ class VariationAPIViewSet(viewsets.ModelViewSet):
     queryset = Variation.objects.all()
     serializer_class = VariationSerializer
 
-# TODO: Insert routes in urls
+

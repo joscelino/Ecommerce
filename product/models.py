@@ -82,6 +82,9 @@ class Product(Base):
         if self.image:
             self.resize_image(self.image, max_image_size)
 
+    class Meta:
+        ordering = ['pk']
+
     def __str__(self):
         return self.name
 
@@ -92,6 +95,10 @@ class Variation(models.Model):
     price = models.FloatField(verbose_name="Price")
     promotional_price = models.FloatField(verbose_name='Promotional price', default=0)
     inventory = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        unique_together = ['product', 'name']
+        ordering = ['pk']
 
     def __str__(self):
         return self.name or self.product.name
