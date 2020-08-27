@@ -1,4 +1,6 @@
 {% if messages %}
+{% load omfilters %}
+
     <br>
     {% for message in messages %}
         <div class="alert {{ message.tags }}" role="alert">

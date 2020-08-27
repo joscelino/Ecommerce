@@ -1,13 +1,19 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework import permissions
 
 from .models import Product, Variation
+from .api_permissions import IsSuperUser
 from .serializers import ProductSerializer, VariationSerializer
 
 
 class ProductAPIViewSet(viewsets.ModelViewSet):
     """ Product API """
+    permission_classes = (
+        IsSuperUser,
+        permissions.DjangoModelPermissions,
+    )
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
@@ -28,6 +34,10 @@ class ProductAPIViewSet(viewsets.ModelViewSet):
 
 class VariationAPIViewSet(viewsets.ModelViewSet):
     """ Variation product API """
+    permission_classes = (
+        IsSuperUser,
+        permissions.DjangoModelPermissions,
+    )
     queryset = Variation.objects.all()
     serializer_class = VariationSerializer
 

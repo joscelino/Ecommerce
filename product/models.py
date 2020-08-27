@@ -74,7 +74,7 @@ class Product(Base):
     def save(self, *args, **kwargs):
         if not self.slug:
             """ Automated slug """
-            slug = f'{slugify(self.name)}'
+            slug = f'{slugify(self.name[:40])}'
             self.slug = slug
 
         super().save(*args, **kwargs)
@@ -93,7 +93,7 @@ class Product(Base):
 
 class Variation(models.Model):
     product = models.ForeignKey(Product, verbose_name='Product', related_name='variations', on_delete=models.CASCADE)
-    name = models.CharField(verbose_name='Variation name', max_length=50, blank=True, null=True)
+    name = models.CharField(verbose_name='variation', max_length=50, blank=True, null=True)
     price = models.FloatField(verbose_name="Price")
     promotional_price = models.FloatField(verbose_name='Promotional price', default=0)
     inventory = models.PositiveIntegerField(default=1)
