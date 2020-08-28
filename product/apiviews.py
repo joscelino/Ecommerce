@@ -38,6 +38,7 @@ class VariationAPIViewSet(viewsets.ModelViewSet):
         IsSuperUser,
         permissions.DjangoModelPermissions,
     )
+
     queryset = Variation.objects.all()
     serializer_class = VariationSerializer
 

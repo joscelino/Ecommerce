@@ -1,10 +1,10 @@
 import requests
 
-headers = {'Authorization': 'Token 9072fffaf70a425a774e18ab80aa377b81a7bd65'}
+headers = {'Authorization': 'Token d088fbb38dfcfeb35e737227f5523ea33a48971f'}
 
 """ API tests using requests library """
 
-# GET - Variations
+# GET - Variationsf'
 variations = requests.get(url='http://localhost:8000/api/v1/variations/', headers=headers)
 
 print(variations.status_code)
@@ -15,6 +15,7 @@ variations_response = variations.json()
 print(type(variations_response))
 
 print(variations_response)
+
 
 
 # GET - Product
