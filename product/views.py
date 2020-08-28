@@ -93,7 +93,7 @@ class AddToCart(View):
                 'variation_id': variation_id,
                 'quantitative_price': price,
                 'quantitative_promotional_price': promotional_price,
-                'quantity': quantity,
+                'quantity': 1,
                 'slug': slug,
                 'image': image,
             }
