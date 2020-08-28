@@ -145,7 +145,7 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-MESSAGE_TAGS ={
+MESSAGE_TAGS = {
     constants.DEBUG: 'alert-info',
     constants.ERROR: 'alert-danger',
     constants.INFO: 'alert-info',

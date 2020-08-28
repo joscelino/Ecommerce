@@ -24,12 +24,12 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         extra_kwargs = {
-            'image': {'write_only': True}
+            'image': {'write_only': True},
+            'pk': {'read_only': True},
         }
 
         model = Product
         fields = (
-            'pk',
             'name',
             'short_description',
             'long_description',
