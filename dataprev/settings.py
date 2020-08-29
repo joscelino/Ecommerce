@@ -46,9 +46,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
 
-    'product',
-    'order',
-    'costumer',
+    'apps.product',
+    'apps.order',
+    'apps.costumer',
 
     'debug_toolbar', # must be the last one
 ]

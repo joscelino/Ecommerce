@@ -18,7 +18,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from product.urls import router
+from apps.product.urls import router
 
 urlpatterns = [
     path('', include('product.urls')),
