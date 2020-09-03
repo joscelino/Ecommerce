@@ -1,11 +1,11 @@
 from django.contrib.auth.models import User
 from django import forms
-from .models import Costumer
+from .models import CostumerAddress
 
 
 class ProfileForm(forms.ModelForm):
     class Meta:
-        model = Costumer
+        model = CostumerAddress
         fields = '__all__'
         exclude = ('user',)
 
@@ -46,15 +46,16 @@ class UserForm(forms.ModelForm):
         email_msg_user_exists = 'E-mail already exists!'
         password_msg_user_match = 'Passwords do not match!'
         password_msg_user_short = 'Password too short!'
+        error_msg_required_field = 'Required field'
 
         if self.user:
-            if user_data != user_db.username:
-                if user_db:
+            if user_db:
+                if user_data != user_db.username:
                     validation_error_msgs['username'] = error_msg_user_exists
 
-            if email_data != email_db.email:
-                if email_db:
-                    validation_error_msgs['emai'] = email_msg_user_exists
+            if email_db:
+                if email_data != email_db.email:
+                    validation_error_msgs['email'] = email_msg_user_exists
 
             if password_data:
                 if password_data != password2_data:
@@ -64,7 +65,25 @@ class UserForm(forms.ModelForm):
                 validation_error_msgs['password'] = password_msg_user_short
 
         else:
-            validation_error_msgs['username'] = 'bla bla bla'
+
+            if user_db:
+                validation_error_msgs['username'] = error_msg_user_exists
+
+            if email_db:
+                validation_error_msgs['email'] = email_msg_user_exists
+
+            if not password_data:
+                validation_error_msgs['password'] = error_msg_required_field
+
+            if not password2_data:
+                validation_error_msgs['password2'] = error_msg_required_field
+
+            if password_data:
+                if password_data != password2_data:
+                    validation_error_msgs['password'] = password_msg_user_match
+
+            if len(password_data) < 6:
+                validation_error_msgs['password'] = password_msg_user_short
 
         if validation_error_msgs:
             raise (forms.ValidationError(validation_error_msgs))

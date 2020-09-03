@@ -32,16 +32,15 @@ class Costumer(Base):
         if not cpf_validator(self.cpf):
             error_messages['cpf']: 'Please, type a valid cpf.'
 
-        if self.age > 120:
-            error_messages['age']: 'Please, check the age.'
+        if 120 > self.age:
+            error_messages['age']: 'Invalid age.'
 
         if error_messages:
             raise ValidationError(error_messages)
 
 
-class CostumerAddress(models.Model):
+class CostumerAddress(Costumer):
     """ Costumer address database fields"""
-    costumer = models.ForeignKey(Costumer, on_delete=models.CASCADE)
     address = models.CharField(verbose_name='Street', max_length=50)
     number = models.CharField(verbose_name='number', max_length=5)
     adjunct_address = models.CharField(verbose_name='Adjunct address', max_length=30)
@@ -77,6 +76,7 @@ class CostumerAddress(models.Model):
             ('RO', 'Rondônia'),
             ('RR', 'Roraima'),
             ('SC', 'Santa Catarina'),
+            ('SP', 'Sao Paulo'),
         )
     )
 

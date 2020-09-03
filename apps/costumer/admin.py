@@ -3,7 +3,7 @@ from django.contrib import admin
 from .models import Costumer, CostumerAddress
 
 
-class CostumerAddressInline(admin.TabularInline):
+class CostumerAddressInline(admin.StackedInline):
     model = CostumerAddress
     extra = 0
 
