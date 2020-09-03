@@ -1,5 +1,5 @@
-from django.shortcuts import redirect, render
-from django.views.generic.list import ListView
+from django.shortcuts import redirect, render, reverse
+from django.views.generic import ListView, DetailView
 from django.views import View
 from django.contrib import messages
 
@@ -8,8 +8,25 @@ from apps.order.models import Order, ItemOrder
 from utils import utils
 
 
-class OrderPayment(View):
-    pass
+class DispatchLoginRequired(View):
+    def dispatch(self, request, *args, **kwargs):
+        if not self.request.user.is_authenticated:
+            return redirect('costumer:create')
+
+        return super().dispatch(*args, **kwargs)
+
+
+class OrderPayment(DispatchLoginRequired, DetailView):
+    template_name = 'order/payment.html'
+    model = Order
+    pk_url_kwarg = 'pk'
+    context_object_name = 'order'
+
+    def get_queryset(self, *args, **kwargs):
+        """ Each user can only see their order """
+        qs = super().get_queryset(*args, **kwargs)
+        qs = qs.filter(user=self.request.user)
+        return qs
 
 
 class SaveOrder(View):
@@ -96,7 +113,15 @@ class SaveOrder(View):
 
         del self.request.session['cart']
         # return render(self.request, self.template_name, context)
-        return redirect('order:list')
+        return redirect(
+            reverse(
+                'order:payment',
+                kwargs={
+                    'pk': order.pk,
+                }
+            )
+        )
+
 
 class OrderDetail(ListView):
     pass
