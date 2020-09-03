@@ -18,6 +18,7 @@ class Order(Base):
     """ Order database fields """
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     total = models.FloatField()
+    total_quantity = models.PositiveIntegerField(verbose_name='total quantity')
     status = models.CharField(
         default='R',
         max_length=1,
