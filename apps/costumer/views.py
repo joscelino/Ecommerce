@@ -65,7 +65,13 @@ class CostumerCreation(ProfileBase):
     def post(self, *args, **kwargs):
 
         if not self.userform.is_valid() or not self.profileform.is_valid():
+            messages.error(
+                self.request,
+                'Please, check the create account data.'
+            )
             return self.rendering
+        else:
+            return redirect('product:cart')
 
         username = self.userform.cleaned_data.get('username')
         password = self.userform.cleaned_data.get('password')

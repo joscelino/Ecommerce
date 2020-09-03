@@ -1,11 +1,12 @@
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views import View
 from django.contrib import messages
 
-
+from apps.costumer.models import CostumerAddress, Costumer
 from .models import Product, Variation
 
 
@@ -147,4 +148,32 @@ class Cart(View):
 
 
 class Checkout(View):
-    pass
+
+    def get(self, *args, **kwargs):
+
+        if not self.request.user.is_authenticated:
+            return redirect('costumer:create')
+
+        profile = Costumer.objects.filter(user=self.request.user).exists()
+
+        if not profile:
+            messages.error(
+                self.request,
+                'User without profile.',
+            )
+            return redirect('costumer:create')
+
+        if not self.request.session.get('cart'):
+            messages.error(
+                self.request,
+                'Cart empty',
+            )
+            return redirect('product:list')
+
+        context = {
+            'user': self.request.user,
+            'cart': self.request.session.get('cart'),
+        }
+
+        return redirect(self.request, 'product/checkout.html', context)
+
