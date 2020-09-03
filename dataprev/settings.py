@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_filters',
     'rest_framework',
     'rest_framework.authtoken',
+    'crispy_forms',
 
     'apps.product',
     'apps.order',
@@ -209,6 +210,8 @@ REST_FRAMEWORK = {
     },
 
 }
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # RECURSOS EXTRAS DE SEGURANCA
 SECURE_HSTS_SECONDS = True
