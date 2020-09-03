@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.http import HttpResponse
 from django.views import View
@@ -64,7 +64,7 @@ class ProfileBase(View):
 class CostumerCreation(ProfileBase):
     def post(self, *args, **kwargs):
 
-        if not self.userform.is_valid():
+        if not self.userform.is_valid() or not self.profileform.is_valid():
             return self.rendering
 
         username = self.userform.cleaned_data.get('username')
@@ -114,19 +114,62 @@ class CostumerCreation(ProfileBase):
             login(self.request, user=user)
 
         self.request.session['cart'] = self.cart
-
         self.request.session.save()
 
         messages.success(
             self.request,
-            'Account created/updated with success!'
+            'Your account was created/updated with success!'
         )
         return redirect('costumer:create')
 
 
 class CostumerLogin(View):
-    pass
+    def post(self, *args, **kwargs):
+
+        username = self.request.POST.get('username')
+        password = self.request.POST.get('password')
+
+        if not username or not password:
+            messages.error(
+                self.request,
+                'Invalid login!'
+            )
+            return redirect('costumer:create')
+
+        user = authenticate(
+            self.request,
+            username=username,
+            password=password,
+        )
+
+        if not user:
+            messages.error(
+                self.request,
+                'Invalid user!'
+            )
+
+        login(self.request, user=user)
+        messages.success(
+            self.request,
+            'Login successfully!'
+        )
+
+        return redirect('product:cart')
 
 
 class CostumerLogout(View):
-    pass
+    def get(self, *args, **kwargs):
+
+        logout(self.request)
+
+        cart = copy.deepcopy(self.request.session.get('cart', {}))
+        if cart:
+            self.request.session['cart'] = cart
+            self.request.session.save()
+
+        messages.success(
+            self.request,
+            'Logout with success!'
+        )
+
+        return redirect('product:list')

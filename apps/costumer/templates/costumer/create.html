@@ -9,7 +9,8 @@
         <h3>Login</h3>
         <p>Login or create account</p>
 
-        <form>
+        <form method="POST" action="{% url 'costumer:login' %}">
+            {% csrf_token %}
             <div class="form-group">
                 <label for="InputUser1">User</label>
                 <input type="text" name="username" class="form-control" id="InputUser1"
