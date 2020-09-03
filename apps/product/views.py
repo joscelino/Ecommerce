@@ -1,12 +1,10 @@
-from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views import View
 from django.contrib import messages
 
-from apps.costumer.models import CostumerAddress, Costumer
+from apps.costumer.models import CostumerAddress
 from .models import Product, Variation
 
 
@@ -154,7 +152,7 @@ class Checkout(View):
         if not self.request.user.is_authenticated:
             return redirect('costumer:create')
 
-        profile = Costumer.objects.filter(user=self.request.user).exists()
+        profile = CostumerAddress.objects.filter(user=self.request.user).exists()
 
         if not profile:
             messages.error(
@@ -172,7 +170,7 @@ class Checkout(View):
 
         context = {
             'user': self.request.user,
-            'cart': self.request.session.get('cart'),
+            'cart': self.request.session['cart'],
         }
 
         return redirect(self.request, 'product/checkout.html', context)
