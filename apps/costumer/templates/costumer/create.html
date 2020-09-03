@@ -3,11 +3,18 @@
 
 {% block content %}
 <div class="row">
+
+    {% if not request.user.is_authenticated %}
     <div class="col-lg">
         <h1>Login</h1>
     </div>
+    {% endif %}
+
+
     <div class="col-lg">
+        {% block title_data %}
         <h1>Register</h1>
+        {% endblock %}
 
         <form method="POST" class="uniform" action="">
             {% csrf_token %}

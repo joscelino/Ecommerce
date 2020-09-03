@@ -7,7 +7,7 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = CostumerAddress
         fields = '__all__'
-        exclude = ('user',)
+        exclude = ('user', 'active')
 
 
 class UserForm(forms.ModelForm):
