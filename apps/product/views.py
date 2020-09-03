@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -107,7 +108,33 @@ class AddToCart(View):
 
 
 class RemoveFromCart(View):
-    pass
+    def get(self, *args, **kwargs):
+        http_referer = self.request.META.get(
+            'HTTP_REFERER',
+            reverse('product:list')
+        )
+        variation_id = self.request.GET.get('vid')
+
+        if not variation_id:
+            return redirect(http_referer)
+
+        if not self.request.session.get('cart'):
+            return redirect(http_referer)
+
+        if variation_id not in self.request.session['cart']:
+            return redirect(http_referer)
+
+        cart = self.request.session['cart'][variation_id]
+
+        messages.success(
+            self.request,
+            f'Product {cart["product_name"]} {cart["variation_name"]} was removed from your cart.'
+        )
+
+        del self.request.session['cart'][variation_id]
+        self.request.session.save()
+
+        return redirect(http_referer)
 
 
 class Cart(View):
@@ -119,5 +146,5 @@ class Cart(View):
         return render(self.request, 'product/cart.html', context)
 
 
-class Conclude(View):
+class Checkout(View):
     pass

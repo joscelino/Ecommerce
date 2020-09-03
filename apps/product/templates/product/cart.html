@@ -9,14 +9,14 @@
 <main class="container mt-4 mb-4">
     <div class="row mt-3">
         <div class="col">
-            <h3>Cart</h3>
+            <h3>cart</h3>
             <p class="lead">The products, quantities and prices you have chosen.</p>
 
             <div class="table-responsive">
                 <table class="table">
                     <tr>
-                        <th class="d-none d-lg-block">Imagem</th>
-                        <th>Produto</th>
+                        <th class="d-none d-lg-block">Image</th>
+                        <th>Product</th>
                         <th>V.</th>
                         <th>QTD.</th>
                         <th>Total</th>
@@ -60,20 +60,20 @@
 
     <div class="row mt-3">
         <div class="col-lg">
-            <p class='lead'>Total no carrinho</p>
+            <p class='lead'>cart total</p>
 
             <div class='table-responsive'>
                 <table class="table">
                     <tr>
                         <td class="font-weight-bold">Total</td>
-                        <td>R$100000</td>
+                        <td>{{ cart|cart_total }}</td>
                     </tr>
                 </table>
             </div>
         </div>
         <div class="col-lg mt-auto">
             <a class="btn btn-lg btn-block btn-primary" href="#">
-                Finalizar a compra
+                Ending order
             </a>
         </div>
     </div>

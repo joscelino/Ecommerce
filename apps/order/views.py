@@ -6,7 +6,7 @@ class OrderPayment(View):
     pass
 
 
-class OrderConclude(View):
+class SaveOrder(View):
     pass
 
 

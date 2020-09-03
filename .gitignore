@@ -3,7 +3,6 @@
 .idea
 htmlcov/*
 comandos.txt
-**migrations
 **staticfiles
 
 
