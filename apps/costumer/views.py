@@ -1,16 +1,18 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
+from django.contrib import messages
 from django.http import HttpResponse
 from django.views import View
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 import copy
 
-from .models import Costumer, CostumerAddress
+from .models import CostumerAddress
 from .forms import UserForm, ProfileForm
 
 
 class ProfileBase(View):
+
     rendering: HttpResponse
     template_name = 'costumer/create.html'
 
@@ -22,10 +24,10 @@ class ProfileBase(View):
         self.profile = None
 
         if self.request.user.is_authenticated:
-            self.profile = Costumer.objects.filter(user=self.request.user).first()
+            self.profile = CostumerAddress.objects.filter(user=self.request.user).first()
 
             if self.request.user.is_authenticated:
-                context = {
+                self.context = {
                     'userform': UserForm(
                         data=self.request.POST or None,
                         user=self.request.user,
@@ -38,8 +40,7 @@ class ProfileBase(View):
                 }
 
         else:
-
-            context = {
+            self.context = {
                 'userform': UserForm(
                     data=self.request.POST or None,
                 ),
@@ -48,13 +49,13 @@ class ProfileBase(View):
                 ),
             }
 
-        self.userform = context['userform']
-        self.profileform = context['profileform']
+        self.userform = self.context['userform']
+        self.profileform = self.context['profileform']
 
         if self.request.user.is_authenticated:
             self.template_name = 'costumer/update.html'
 
-        self.rendering = render(self.request, self.template_name, context)
+        self.rendering = render(self.request, self.template_name, self.context)
 
     def get(self, *args, **kwargs):
         return self.rendering
@@ -63,14 +64,14 @@ class ProfileBase(View):
 class CostumerCreation(ProfileBase):
     def post(self, *args, **kwargs):
 
-        if not self.userform.is_valid() or not self.profileform.is_valid():
+        if not self.userform.is_valid():
             return self.rendering
 
         username = self.userform.cleaned_data.get('username')
         password = self.userform.cleaned_data.get('password')
         email = self.userform.cleaned_data.get('email')
-        first_name = self.userform.cleaned_data('first_name')
-        last_name = self.userform.cleaned_data('last_name')
+        first_name = self.userform.cleaned_data.get('first_name')
+        last_name = self.userform.cleaned_data.get('last_name')
 
         if self.request.user.is_authenticated:
             user = get_object_or_404(User, username=self.request.user.username)
@@ -103,12 +104,24 @@ class CostumerCreation(ProfileBase):
             profile.save()
 
         if password:
-            authenticating = authenticate(self.request,username=user, password=password)
+            authentication = authenticate(
+                self.request,
+                username=user,
+                password=password,
+            )
 
-        if authenticating:
+        if authentication:
             login(self.request, user=user)
 
-        return self.rendering
+        self.request.session['cart'] = self.cart
+
+        self.request.session.save()
+
+        messages.success(
+            self.request,
+            'Account created/updated with success!'
+        )
+        return redirect('costumer:create')
 
 
 class CostumerLogin(View):

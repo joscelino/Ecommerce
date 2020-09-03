@@ -38,6 +38,8 @@ class UserForm(forms.ModelForm):
         user_data = cleaned.get('username')
         password_data = cleaned.get('password')
         password2_data = cleaned.get('password2')
+        first_name = cleaned.get('first_name')
+        last_name = cleaned.get('last_name')
         email_data = cleaned.get('email')
         user_db = User.objects.filter(username=user_data).first()
         email_db = User.objects.filter(email=email_data).first()
@@ -74,6 +76,12 @@ class UserForm(forms.ModelForm):
 
             if not password_data:
                 validation_error_msgs['password'] = error_msg_required_field
+
+            if not first_name:
+                validation_error_msgs['first_name'] = error_msg_required_field
+
+            if not last_name:
+                validation_error_msgs['last_name'] = error_msg_required_field
 
             if not password2_data:
                 validation_error_msgs['password2'] = error_msg_required_field
