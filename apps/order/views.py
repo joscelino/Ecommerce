@@ -9,6 +9,10 @@ from utils import utils
 
 
 class OrderPayment(View):
+    pass
+
+
+class SaveOrder(View):
     template_name = 'order/payment.html'
 
     def get(self, *args, **kwargs):
@@ -91,13 +95,8 @@ class OrderPayment(View):
         }
 
         del self.request.session['cart']
-        #return render(self.request, self.template_name, context)
+        # return render(self.request, self.template_name, context)
         return redirect('order:list')
-
-
-class SaveOrder(View):
-    pass
-
 
 class OrderDetail(ListView):
     pass
