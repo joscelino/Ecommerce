@@ -25,7 +25,8 @@
                     Account
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'costumer:create' %}">Update</a>
+                    <a class="dropdown-item" href="{% url 'order:list' %}">My Orders</a>
+                    <a class="dropdown-item" href="{% url 'costumer:create' %}">Update account</a>
                     <a class="dropdown-item" href="{% url 'costumer:logout' %}">Log out</a>
                 </div>
             </li>

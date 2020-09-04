@@ -8,7 +8,7 @@ from apps.order.models import Order, ItemOrder
 from utils import utils
 
 
-class DispatchLoginRequired(View):
+class DispatchLoginRequiredMixin(View):
     def dispatch(self, request, *args, **kwargs):
         if not self.request.user.is_authenticated:
             return redirect('costumer:create')
@@ -16,7 +16,7 @@ class DispatchLoginRequired(View):
         return super().dispatch(*args, **kwargs)
 
 
-class OrderPayment(DispatchLoginRequired, DetailView):
+class OrderPayment(DispatchLoginRequiredMixin, DetailView):
     template_name = 'order/payment.html'
     model = Order
     pk_url_kwarg = 'pk'
@@ -123,9 +123,16 @@ class SaveOrder(View):
         )
 
 
-class OrderDetail(ListView):
-    pass
+class OrderDetail(DispatchLoginRequiredMixin, DetailView):
+    model = Order
+    context_object_name = 'order'
+    template_name = 'order/detail.html'
+    pk_url_kwarg = 'pk'
 
 
 class OrderList(ListView):
-    pass
+    model = Order
+    context_object_name = 'orders'
+    template_name = 'order/list.html'
+    paginate_by = 10
+    ordering = ['-pk']
