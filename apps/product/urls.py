@@ -2,7 +2,15 @@ from django.urls import path
 from rest_framework.routers import SimpleRouter
 
 from .apiviews import ProductAPIViewSet, VariationAPIViewSet
-from .views import ProductList, ProductDetail, AddToCart, RemoveFromCart, Cart, Checkout
+from .views import (
+    ProductList,
+    ProductDetail,
+    AddToCart,
+    RemoveFromCart,
+    Cart,
+    Checkout,
+    Search,
+)
 
 router = SimpleRouter()
 router.register('product', ProductAPIViewSet)
@@ -17,4 +25,6 @@ urlpatterns = [
     path('removefromcart/', RemoveFromCart.as_view(), name='removefromcart'),
     path('cart/', Cart.as_view(), name='cart'),
     path('checkout/', Checkout.as_view(), name='checkout'),
+    path('search/', Search.as_view(), name='search'),
 ]
+

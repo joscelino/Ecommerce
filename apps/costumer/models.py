@@ -82,6 +82,10 @@ class CostumerAddress(Costumer):
 
     def clean(self):
         error_messages = {}
+
+        if not cpf_validator(self.cpf):
+            error_messages['cpf'] = 'Insert a valid cpf.'
+
         if re.search(r'[^0-9]', self.zip_code) or len(self.zip_code) < 8:
             error_messages['zip_code']: 'Please, type a valid zip code.'
 

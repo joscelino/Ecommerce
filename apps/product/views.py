@@ -3,6 +3,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views import View
 from django.contrib import messages
+from django.db.models import Q
 
 from apps.costumer.models import CostumerAddress
 from .models import Product, Variation
@@ -14,6 +15,24 @@ class ProductList(ListView):
     context_object_name = 'products'
     paginate_by = 9
     ordering = ['-pk']
+
+
+class Search(ProductList):
+    def get_queryset(self, *args, **kwargs):
+        term = self.request.GET.get('term') or self.request.session['term']
+        qs = super().get_queryset(*args, **kwargs)
+
+        if not term:
+            return qs
+
+        qs = qs.filter(
+            Q(name__icontains=term) |
+            Q(short_description=term) |
+            Q(long_description=term)
+        )
+        self.request.session.save()
+
+        return qs
 
 
 class ProductDetail(DetailView):
@@ -174,4 +193,3 @@ class Checkout(View):
         }
 
         return redirect(self.request, 'product/checkout.html', context)
-
