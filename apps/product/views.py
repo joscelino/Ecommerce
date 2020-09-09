@@ -50,6 +50,7 @@ class AddToCart(View):
             reverse('product:list')
         )
         variation_id = self.request.GET.get('vid')
+        print(variation_id)
 
         if not variation_id:
             messages.error(

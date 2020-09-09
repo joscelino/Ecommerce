@@ -18,14 +18,14 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from apps.product.urls import router
+#from apps.product.api.urls import router
 
 urlpatterns = [
     path('', include('apps.product.urls')),
     path('costumer/', include('apps.costumer.urls')),
     path('order/', include('apps.order.urls')),
     path('admin/', admin.site.urls),
-    path('api/v1/', include(router.urls)),
+    #path('api/v1/', include(router.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

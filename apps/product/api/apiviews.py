@@ -3,9 +3,9 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import permissions
 
-from .models import Product, Variation
-from .api_permissions import IsSuperUser
-from .serializers import ProductSerializer, VariationSerializer
+from apps.product.models import Product, Variation
+from apps.product.api.api_permissions import IsSuperUser
+from apps.product.api.serializers import ProductSerializer, VariationSerializer
 
 
 class ProductAPIViewSet(viewsets.ModelViewSet):

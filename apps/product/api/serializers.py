@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Product, Variation
+from apps.product.models import Product, Variation
 
 
 class VariationSerializer(serializers.ModelSerializer):

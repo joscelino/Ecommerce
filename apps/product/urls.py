@@ -1,7 +1,5 @@
 from django.urls import path
-from rest_framework.routers import SimpleRouter
 
-from .apiviews import ProductAPIViewSet, VariationAPIViewSet
 from .views import (
     ProductList,
     ProductDetail,
@@ -12,9 +10,6 @@ from .views import (
     Search,
 )
 
-router = SimpleRouter()
-router.register('product', ProductAPIViewSet)
-router.register('variations', VariationAPIViewSet)
 
 app_name = 'product'
 
